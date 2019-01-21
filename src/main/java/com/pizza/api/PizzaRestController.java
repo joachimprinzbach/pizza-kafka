@@ -1,6 +1,7 @@
 package com.pizza.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.lang.NonNull;
@@ -15,7 +16,9 @@ import java.util.List;
 @RequestMapping("/pizzas")
 public class PizzaRestController {
 
-    public static final String MYTOPIC_0 = "myTopic-0";
+    @Value("${cloudkarafka.topic}")
+    private String topic;
+
     private final @NonNull KafkaOperations<Object, Object> kafka;
 
     @Autowired
@@ -25,11 +28,11 @@ public class PizzaRestController {
 
     @GetMapping
     public List<PizzaDto> getAll() {
-        kafka.send(MYTOPIC_0, "msg");
+        kafka.send(topic, "msg");
         return Arrays.asList(new PizzaDto("Funghi"));
     }
 
-    @KafkaListener(topics = MYTOPIC_0)
+    @KafkaListener(topics = "${cloudkarafka.topic}")
     public void onMessageSend(Object message) {
         System.out.println("ADDED: " + message);
     }

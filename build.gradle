@@ -29,7 +29,6 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'com.jayway.jsonpath:json-path:2.4.0'
 
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
